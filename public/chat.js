@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const socket = io();  // Make sure to include this to connect to the server
 
 let userName = '';
@@ -60,3 +61,94 @@ socket.on('receive_message', (data) => {
 
 // Trigger name prompt on page load
 window.onload = showNamePrompt;
+=======
+document.addEventListener('DOMContentLoaded', () => {
+  const socket = io();  // Ensure the socket is initialized correctly
+
+  const chatWindow = document.getElementById('chat-window');
+  const messageInput = document.getElementById('message-input');
+  const sendButton = document.getElementById('send-button');
+  const emojiButton = document.getElementById('emoji-button');
+  const typingIndicator = document.getElementById('typing-indicator');
+
+  let userName = prompt('Enter your name:');
+  if (!userName) {
+      userName = 'Anonymous';
+  }
+
+  // Initialize Emoji Picker
+  const picker = new EmojiButton();
+  picker.on('emoji', emoji => {
+      messageInput.value += emoji;
+  });
+
+  emojiButton.addEventListener('click', () => {
+      picker.togglePicker(emojiButton);
+  });
+
+  // Send message
+  sendButton.addEventListener('click', () => {
+      console.log('Send button clicked!');
+      sendMessage();
+  });
+
+  messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          console.log('Enter key pressed!');
+          sendMessage();
+      } else {
+          socket.emit('typing', { user: userName });
+      }
+  });
+
+  function sendMessage() {
+      const message = messageInput.value.trim();
+      if (message !== '') {
+          console.log('Sending message:', message);
+          const messageData = {
+              user: userName,
+              message: message,
+              time: new Date().toLocaleTimeString()
+          };
+          socket.emit('chat message', messageData);  // Emit the message
+          displayMessage(messageData, true);  // Display own message
+          messageInput.value = '';  // Clear input field
+      }
+  }
+
+  function displayMessage(data, isOwnMessage = false) {
+      const messageElement = document.createElement('div');
+      messageElement.classList.add('message');
+      if (isOwnMessage) {
+          messageElement.classList.add('own-message');
+      }
+      messageElement.innerHTML = `
+          <span class="message-user">${data.user}</span>
+          <span class="message-time">${data.time}</span>
+          <p class="message-text">${data.message}</p>
+      `;
+      chatWindow.appendChild(messageElement);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+
+  // Receive messages
+  socket.on('chat message', (data) => {
+      console.log('Received message:', data);
+      displayMessage(data);  // Display received message
+  });
+
+  // Typing indicator
+  let typingTimeout;
+  socket.on('typing', (data) => {
+      if (data.user !== userName) {
+          typingIndicator.textContent = `${data.user} is typing...`;
+          typingIndicator.style.display = 'block';
+          clearTimeout(typingTimeout);
+          typingTimeout = setTimeout(() => {
+              typingIndicator.style.display = 'none';
+          }, 3000);
+      }
+  });
+});
+>>>>>>> 2732b22 (Initial commit for MJsays)
