@@ -6,14 +6,15 @@
 }
 
 /* Body */
-body {
+html, body {
+  height: 100%;
   font-family: 'Arial', sans-serif;
   background-color: #e0f7fa; /* Light blue background */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   margin: 0;
+  overflow: hidden; /* Prevent body scrolling */
 }
 
 /* Name prompt */
@@ -47,13 +48,13 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 400px; /* Limit the width on large screens */
+  max-width: 400px;
   background-color: #b2dfdb; /* Light Teal Blue */
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   height: 80vh;
   overflow: hidden;
-  background-image: url('assets/background-image.jpg'); /* Background image URL */
+  background-image: url('assets/background-image.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -141,35 +142,23 @@ body {
   .chat-container {
     width: 100%;
     height: 80vh;
-    max-width: 100%;  /* Allow the chat container to take up the full screen width on smaller devices */
-    border-radius: 10px;
+    max-width: 100%;
     margin-top: 20px;  /* Add margin for better spacing */
   }
 
-  /* Adjust the message input area */
-  .message-input input {
-    padding: 12px;  /* Increase padding for easier typing on mobile */
-    font-size: 16px; /* Increase font size for better readability */
-  }
-
-  /* Increase the font size for messages and reduce max width */
   .messages {
     font-size: 14px;
     padding: 8px;
   }
 
-  .message {
-    max-width: 85%; /* Increase max-width for better fit */
-    margin: 10px 0;
-  }
-
-  .message.own-message {
-    max-width: 85%; /* Limit max width on own message */
+  .message-input input {
+    padding: 12px;
+    font-size: 16px;
   }
 
   #sendBtn {
-    padding: 12px 20px; /* Increase button padding */
-    font-size: 16px; /* Larger font for better readability */
+    padding: 12px 20px;
+    font-size: 16px;
   }
 }
 
@@ -188,16 +177,15 @@ body {
     padding: 12px 18px;
   }
 
-  /* Adjust message display font size for smaller screens */
   .messages {
     font-size: 12px;
   }
 
   .message {
-    max-width: 90%;  /* Make messages narrower for smaller devices */
+    max-width: 90%;
   }
 
   .message.own-message {
-    max-width: 90%;  /* Limit max-width of own messages */
+    max-width: 90%;
   }
 }
